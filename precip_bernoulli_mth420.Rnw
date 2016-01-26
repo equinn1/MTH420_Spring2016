@@ -1,0 +1,46 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+library(ggplot2)
+
+pgm_name="precip_gamma"
+
+load("rainfall2.Rdata")
+
+str(rainfall2)
+
+rain_01<-as.numeric(rainfall2$rain_mm>0)
+
+table(rain_01)
+
+table(rainfall2$site)
+
+Nsites=nlevels(rainfall2$site)
+
+site=as.numeric(rainfall2$site)
+
+Nobs<-length(table(rainfall2$rain_mm))
+
+log_rain_mm<-1+log(rainfall2$rain_mm)   #rainfall mm
+
+Nobs<-length(log_rain_mm)             #number of obs
+
+Nobs
+@
+Run STAN
+<<>>=
+library(rstan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+
+library(shinystan)   #downloaded from cran
+
+stanfit<-stan("precip_bernoulli.stan",iter=4000)
+
+launch_shinystan(stanfit)
+@
+
+
+\end{document}
