@@ -1,0 +1,22 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+library(rstan)
+#
+load("dataList.1.Rdata")
+attach(dataList.1)
+
+election88.sf1 <- stan(file='election88.stan', data=dataList.1,
+                       iter=1000, chains=4)
+print(election88.sf1, pars = c("a","b", "lp__"))
+
+@
+
+<<>>=
+library(shinystan)
+launch_shinystan(election88.sf1)
+@
+
+\end{document}
