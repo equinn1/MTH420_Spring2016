@@ -1,0 +1,26 @@
+\documentclass{article}
+
+\begin{document}
+Bare-bones STAN parameter estimation
+<<>>=
+set.seed(275891)
+N<-25
+y<-rbinom(N,1,0.3)
+
+str(y)                                        #show the structure of y
+@
+Call STAN
+<<>>=
+library(rstan)                                #make sure rstan is available
+rstan_options(auto_write = TRUE)              #use multiple cores
+options(mc.cores = parallel::detectCores())   #if we have them
+stanfit<-stan("betabernoulli.stan")                 #call STAN using defaults
+print(stanfit)
+@
+Data Histogram
+<<>>=
+hist(y)
+y
+@
+
+\end{document}

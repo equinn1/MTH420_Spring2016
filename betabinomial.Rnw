@@ -1,0 +1,31 @@
+\documentclass{article}
+
+\begin{document}
+Bare-bones STAN parameter estimation
+<<>>=
+set.seed(275891)
+N<-25
+n<-10
+y<-rbinom(N,n,0.45)
+
+str(y)                                        #show the structure of y
+@
+Call STAN
+<<>>=
+library(rstan)                                #make sure rstan is available
+rstan_options(auto_write = TRUE)              #use multiple cores
+options(mc.cores = parallel::detectCores())   #if we have them
+stanfit<-stan("betabinomial.stan")                 #call STAN using defaults
+print(stanfit)
+@
+postprocessing
+<<>>=
+post<-extract(stanfit)
+str(post)
+@
+shinystan
+<<>>=
+library(shinystan)
+launch_shinystan(stanfit)
+@
+\end{document}
