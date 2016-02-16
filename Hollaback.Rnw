@@ -1,0 +1,15 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+library(foreign)
+df<-read.dta("HOLLABACK DATA_1_Livingston.dta")
+
+table(df$verbalwork,df$verbalstreet)
+
+str(df)
+
+@
+
+\end{document}
